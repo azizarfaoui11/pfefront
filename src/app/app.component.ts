@@ -4,7 +4,10 @@ import { CommonModule } from '@angular/common';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { FormsModule, NgModel } from '@angular/forms';
 import { PortalModule } from '@angular/cdk/portal';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
+import { TokenInterceptor } from './core/services/interceptor/token-interceptor.interceptor';
 
 @Component({
   
@@ -13,7 +16,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   imports : [CommonModule,RouterLink,RouterOutlet,FormsModule,PortalModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  providers:[PipelineserviceService]
+  providers:
+  [
+    HttpClient,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    },
+  ],
+  //[PipelineserviceService]
 })
 export class AppComponent {
   title = 'pfeFront';
